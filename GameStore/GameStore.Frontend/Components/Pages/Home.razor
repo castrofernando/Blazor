@@ -1,5 +1,7 @@
 ﻿@page "/"
 @inject GamesClient Client
+@attribute [StreamRendering] 
+<!-- StreamRendering attribute will allow server render part of the HTML ready while async method didn´t finished -->
 
 <PageTitle>Game Catalog</PageTitle>
 
@@ -45,9 +47,9 @@
    private GameSummary[]? games;
 
     //It will just be called on first time the component is rendered
-   protected override void OnInitialized() 
+   protected override async Task OnInitializedAsync() 
    {
-        games = Client.GetNames();
+        games = await Client.GetNamesAsync();
    }
  
 }
