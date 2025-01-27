@@ -1,0 +1,53 @@
+﻿@page "/"
+@inject GamesClient Client
+
+<PageTitle>Game Catalog</PageTitle>
+
+<div class="mt-2">
+    <a class="btn btn-primary" role="button" href="/editgame">New Game</a>
+</div>
+@if(games == null) {
+    <p><em>Loading...</em></p>
+} else {
+    <table class="table table-striped table-bordered table-hover mt-3">
+        <thead class="table-dark">
+            <th>Id</th>
+            <th>Name</th>
+            <th>Genre</th>
+            <th class="text-end">Price</th>
+            <th>Release Date</th>
+            <th>             
+            </th>
+        </thead>
+        <tbody>
+            @foreach(var game in games) {
+                <tr>
+                    <td>@game.Id</td>
+                    <td>@game.Name</td>
+                    <td>@game.Genre</td>
+                    <td class="text-end">@game.Price.ToString("C2")</td>
+                    <td>@game.ReleaseDate</td>
+                    <td>
+                        <div>    
+                            <a class="btn btn-primary me-2" role="button" href="/editgame/@game.Id"><i class="bi bi-pencil"></i></a>
+                            <button class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#modal-@game.Id"><i class="bi bi-trash"></i></button>
+                        </div>
+                        <RemoveModal Game="@game"/>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+   private GameSummary[]? games;
+
+    //It will just be called on first time the component is rendered
+   protected override void OnInitialized() 
+   {
+        games = Client.GetNames();
+   }
+ 
+}
