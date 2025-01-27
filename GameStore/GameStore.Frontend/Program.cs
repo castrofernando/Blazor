@@ -6,9 +6,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+var GameStoreApiUrlBase = builder.Configuration["GameStoreApiUrlBase"] 
+    ?? throw new Exception("GameStore API Url not set.");
+builder.Services.AddHttpClient<GamesClient>(client => client.BaseAddress = new Uri(GameStoreApiUrlBase));
+builder.Services.AddHttpClient<GenresClient>(client => client.BaseAddress = new Uri(GameStoreApiUrlBase));
 //Register service to inject - AddSingleton //AddScoped //AddTransient - singleton as we just want to instantiate once and use across entire application
-builder.Services.AddSingleton<GamesClient>(); 
-builder.Services.AddSingleton<GenresClient>();
+//builder.Services.AddSingleton<GamesClient>();  //not used anymore
+//builder.Services.AddSingleton<GenresClient>(); //not used anymore
 
 var app = builder.Build();
 
