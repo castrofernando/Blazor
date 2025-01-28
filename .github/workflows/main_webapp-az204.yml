@@ -27,7 +27,7 @@ jobs:
         run: dotnet build .\GameStore\GameStore.Api\GameStore.Api.csproj --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}\GameStore\GameStore.Api\GameStore.Api.csproj"
+        run: dotnet publish .\GameStore\GameStore.Api\GameStore.Api.csproj -c Release -o "${{env.DOTNET_ROOT}}"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
